@@ -1,0 +1,58 @@
+[
+  {
+    "objectID": "sarasota.html",
+    "href": "sarasota.html",
+    "title": "Sarasota",
+    "section": "",
+    "text": "This page focuses on Sarasota’s climate pattern across the year.\nCode\nimport pandas as pd\nfrom datetime import datetime\nfrom meteostat import config, hourly\n\nconfig.block_large_requests = False\n\nstart = datetime(2020, 1, 1)\nend = datetime(2024, 1, 1)\n\nstation = \"KSRQ0\"\ndf = hourly(station, start, end).fetch().reset_index().rename(columns={\"time\": \"date\"})\n\ndf = df[[\"date\", \"temp\", \"prcp\"]].dropna().copy()\ndf[\"month_name\"] = df[\"date\"].dt.strftime(\"%b\")\ndf[\"month_num\"] = df[\"date\"].dt.month\n\nmonthly = (\n    df.groupby([\"month_num\", \"month_name\"], as_index=False)\n    .agg(\n        avg_temp_c=(\"temp\", \"mean\"),\n        total_rainfall_mm=(\"prcp\", \"sum\")\n    )\n    .sort_values(\"month_num\")\n)\n\nmonths = [\"Jan\", \"Feb\", \"Mar\", \"Apr\", \"May\", \"Jun\", \"Jul\", \"Aug\", \"Sep\", \"Oct\", \"Nov\", \"Dec\"]\nmonthly[\"month_name\"] = pd.Categorical(monthly[\"month_name\"], categories=months, ordered=True)\n\nmonthly\n\n\n\n\n\n\n\n\n\nmonth_num\nmonth_name\navg_temp_c\ntotal_rainfall_mm\n\n\n\n\n0\n1\nJan\n17.441939\n74.2\n\n\n1\n2\nFeb\n19.551192\n93.9\n\n\n2\n3\nMar\n21.715992\n91.9\n\n\n3\n4\nApr\n23.569715\n233.0\n\n\n4\n5\nMay\n25.569437\n168.8\n\n\n5\n6\nJun\n27.780344\n519.6\n\n\n6\n7\nJul\n28.803184\n419.1\n\n\n7\n8\nAug\n28.594959\n600.4\n\n\n8\n9\nSep\n27.28432\n485.0\n\n\n9\n10\nOct\n25.170365\n134.6\n\n\n10\n11\nNov\n21.553394\n224.3\n\n\n11\n12\nDec\n18.383801\n163.3"
+  },
+  {
+    "objectID": "sarasota.html#key-pattern",
+    "href": "sarasota.html#key-pattern",
+    "title": "Sarasota",
+    "section": "Key pattern",
+    "text": "Key pattern\nSarasota stays relatively warm throughout the year, with higher rainfall during the warmer months and a gentler winter climate compared with Ulaanbaatar.\n\n\nCode\nimport plotly.express as px\n\nfig = px.line(\n    monthly,\n    x=\"month_name\",\n    y=\"avg_temp_c\",\n    markers=True,\n    title=\"Average Monthly Temperature in Sarasota\",\n    labels={\"month_name\": \"Month\", \"avg_temp_c\": \"Temperature (°C)\"}\n)\n\nfig.update_layout(\n    template=\"plotly_white\",\n    width=900,\n    height=420,\n    margin=dict(l=20, r=20, t=50, b=20),\n    title_x=0.5\n)\nfig.show()"
+  },
+  {
+    "objectID": "mongolia.html",
+    "href": "mongolia.html",
+    "title": "Mongolia",
+    "section": "",
+    "text": "This page focuses on Mongolia’s climate pattern across the year.\nCode\nimport pandas as pd\nfrom datetime import datetime\nfrom meteostat import config, hourly\n\nconfig.block_large_requests = False\n\nstart = datetime(2020, 1, 1)\nend = datetime(2024, 1, 1)\n\nstation = \"44292\"\ndf = hourly(station, start, end).fetch().reset_index().rename(columns={\"time\": \"date\"})\n\ndf = df[[\"date\", \"temp\", \"prcp\"]].dropna().copy()\ndf[\"month_name\"] = df[\"date\"].dt.strftime(\"%b\")\ndf[\"month_num\"] = df[\"date\"].dt.month\n\nmonthly = (\n    df.groupby([\"month_num\", \"month_name\"], as_index=False)\n    .agg(\n        avg_temp_c=(\"temp\", \"mean\"),\n        total_rainfall_mm=(\"prcp\", \"sum\")\n    )\n    .sort_values(\"month_num\")\n)\n\nmonths = [\"Jan\", \"Feb\", \"Mar\", \"Apr\", \"May\", \"Jun\", \"Jul\", \"Aug\", \"Sep\", \"Oct\", \"Nov\", \"Dec\"]\nmonthly[\"month_name\"] = pd.Categorical(monthly[\"month_name\"], categories=months, ordered=True)\n\nmonthly\n\n\n\n\n\n\n\n\n\nmonth_num\nmonth_name\navg_temp_c\ntotal_rainfall_mm\n\n\n\n\n0\n1\nJan\n-21.067248\n0.5\n\n\n1\n2\nFeb\n-13.172173\n0.0\n\n\n2\n3\nMar\n-3.69086\n5.6\n\n\n3\n4\nApr\n0.414028\n17.1\n\n\n4\n5\nMay\n9.042421\n59.6\n\n\n5\n6\nJun\n17.156528\n83.7\n\n\n6\n7\nJul\n17.802218\n260.0\n\n\n7\n8\nAug\n15.769892\n171.2\n\n\n8\n9\nSep\n11.507361\n81.9\n\n\n9\n10\nOct\n2.078091\n16.7\n\n\n10\n11\nNov\n-11.336042\n19.0\n\n\n11\n12\nDec\n-20.093414\n13.0"
+  },
+  {
+    "objectID": "mongolia.html#key-pattern",
+    "href": "mongolia.html#key-pattern",
+    "title": "Mongolia",
+    "section": "Key pattern",
+    "text": "Key pattern\nMongolia has a much colder winter and a sharper seasonal temperature swing than Sarasota. Rainfall is relatively low overall, but the climate still shows a clear warm-season pulse.\n\n\nCode\nimport plotly.express as px\n\nfig = px.line(\n    monthly,\n    x=\"month_name\",\n    y=\"avg_temp_c\",\n    markers=True,\n    title=\"Average Monthly Temperature in Mongolia\",\n    labels={\"month_name\": \"Month\", \"avg_temp_c\": \"Temperature (°C)\"}\n)\n\nfig.update_layout(\n    template=\"plotly_white\",\n    width=900,\n    height=420,\n    margin=dict(l=20, r=20, t=50, b=20),\n    title_x=0.5\n)\nfig.show()"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "UB Weather Dashboard",
+    "section": "",
+    "text": "This page tracks how temperature and rainfall pulse across the year for Sarasota and Ulaanbaatar.\nCode\nimport pandas as pd\nimport plotly.express as px\nfrom datetime import datetime\nfrom meteostat import config, hourly\n\nconfig.block_large_requests = False\n\nstart = datetime(2023, 1, 1)\nend = datetime(2023, 12, 31, 23, 59)\n\nstations = {\n    \"Sarasota\": \"KSRQ0\",\n    \"Ulaanbaatar\": \"44292\",\n}\n\nrecords = []\n\nfor city, station in stations.items():\n    df = hourly(station, start, end).fetch()\n    if df is None or df.empty:\n        continue\n\n    df = df.reset_index().rename(columns={\"time\": \"date\"})\n    df = df[[\"date\", \"temp\", \"prcp\"]].dropna()\n    df[\"month_num\"] = df[\"date\"].dt.month\n    df[\"month_name\"] = df[\"date\"].dt.strftime(\"%b\")\n\n    monthly = (\n        df.groupby([\"month_num\", \"month_name\"], as_index=False)\n        .agg(\n            temp_c=(\"temp\", \"mean\"),\n            rainfall_mm=(\"prcp\", \"sum\")\n        )\n    )\n    monthly[\"city\"] = city\n    records.append(monthly)\n\nmonthly_df = pd.concat(records, ignore_index=True)\nmonths = [\"Jan\", \"Feb\", \"Mar\", \"Apr\", \"May\", \"Jun\", \"Jul\", \"Aug\", \"Sep\", \"Oct\", \"Nov\", \"Dec\"]\nmonthly_df[\"month_name\"] = pd.Categorical(monthly_df[\"month_name\"], categories=months, ordered=True)\nmonthly_df = monthly_df.sort_values([\"month_num\", \"city\"]).reset_index(drop=True)"
+  },
+  {
+    "objectID": "index.html#monthly-temperature-comparison",
+    "href": "index.html#monthly-temperature-comparison",
+    "title": "UB Weather Dashboard",
+    "section": "Monthly Temperature Comparison",
+    "text": "Monthly Temperature Comparison\n\n\nCode\nfig_temp = px.line(\n    monthly_df,\n    x=\"month_name\",\n    y=\"temp_c\",\n    color=\"city\",\n    markers=True,\n    category_orders={\"city\": [\"Sarasota\", \"Ulaanbaatar\"], \"month_name\": months},\n    labels={\"city\": \"City\", \"temp_c\": \"Temperature (°C)\", \"month_name\": \"Month\"},\n    title=\"Average Monthly Temperature Across 2023\"\n)\n\nfig_temp.update_traces(line=dict(width=3), marker=dict(size=8))\nfig_temp.layout.yaxis.zeroline = True\nfig_temp.layout.yaxis.zerolinewidth = 2\nfig_temp.layout.yaxis.zerolinecolor = \"gray\"\nfig_temp.update_layout(\n    template=\"plotly_white\",\n    width=750,\n    height=450,\n    colorway=[\"#1C6E8C\", \"#D96C06\"]\n)\nfig_temp.show()\n\n\n                            \n                                            \n\n\nNotice how Ulaanbaatar dips far below 0°C (freezing) in winter and rises in summer, while Sarasota stays comfortably warm all year."
+  },
+  {
+    "objectID": "index.html#monthly-rainfall-comparison",
+    "href": "index.html#monthly-rainfall-comparison",
+    "title": "UB Weather Dashboard",
+    "section": "Monthly Rainfall Comparison",
+    "text": "Monthly Rainfall Comparison\n\n\nCode\nfig_rain = px.line(\n    monthly_df,\n    x=\"month_name\",\n    y=\"rainfall_mm\",\n    color=\"city\",\n    markers=True,\n    category_orders={\"city\": [\"Sarasota\", \"Ulaanbaatar\"], \"month_name\": months},\n    labels={\"city\": \"City\", \"rainfall_mm\": \"Rainfall (mm)\", \"month_name\": \"Month\"},\n    title=\"Total Monthly Rainfall Across 2023\"\n)\n\nfig_rain.update_traces(line=dict(width=3), marker=dict(size=8))\nfig_rain.update_layout(\n    template=\"plotly_white\",\n    width=750,\n    height=450,\n    colorway=[\"#1C6E8C\", \"#D96C06\"]\n)\nfig_rain.show()\n\n\n                            \n                                            \n\n\nWatch the rainfall “pulse” in the summer months: Ulaanbaatar spikes in July, while Sarasota experiences heavy rainfall in August."
+  },
+  {
+    "objectID": "index.html#monthly-summary",
+    "href": "index.html#monthly-summary",
+    "title": "UB Weather Dashboard",
+    "section": "Monthly summary",
+    "text": "Monthly summary\n\n\nCode\nsummary = monthly_df.groupby(\"city\").agg(\n    avg_temp_c=(\"temp_c\", \"mean\"),\n    total_rainfall_mm=(\"rainfall_mm\", \"sum\")\n).round(2)\nsummary\n\n\n\n\n\n\n\n\n\navg_temp_c\ntotal_rainfall_mm\n\n\ncity\n\n\n\n\n\n\nSarasota\n24.22\n476.3\n\n\nUlaanbaatar\n0.67\n395.9"
+  }
+]
